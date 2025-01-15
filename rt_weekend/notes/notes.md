@@ -62,3 +62,27 @@ bool hit_sphere(const point3& center, double radius, const ray& r)
 Obviously, we know that surface normals are vectors (usually of length 1) that point perpedicularly out from the surface of a given object.
 
 For a sphere the outward normal is the direction of the hit point minus the center.
+
+## Antialiasing
+
+A single ray through the center of each pixel indicates that we are doing something called *point sampling*.
+
+The problem with this method is illustrated by the case in which we would try to render a checkerboard from far away. Only four or so rays might hit it, and those rays may only hit white tiles, meaning all we would see is a white box in the distance.
+
+In real life, however, our eyes would naturally interpolate the black and white colors of the checkerboard and it would appear gray.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

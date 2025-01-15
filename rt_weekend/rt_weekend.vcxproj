@@ -140,8 +140,14 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\color.h" />
+    <ClInclude Include="include\hittable.h" />
+    <ClInclude Include="include\hittable_list.h" />
+    <ClInclude Include="include\interval.h" />
     <ClInclude Include="include\ray.h" />
+    <ClInclude Include="include\rt_weekend.h" />
+    <ClInclude Include="include\sphere.h" />
     <ClInclude Include="include\vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

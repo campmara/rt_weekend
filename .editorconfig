@@ -12,6 +12,8 @@ indent_size = 4
 
 [*.cpp]
 indent_size = 4
+cpp_space_pointer_reference_alignment = right
 
 [*.h]
 indent_size = 4
+cpp_space_pointer_reference_alignment = right

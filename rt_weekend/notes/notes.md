@@ -71,18 +71,10 @@ The problem with this method is illustrated by the case in which we would try to
 
 In real life, however, our eyes would naturally interpolate the black and white colors of the checkerboard and it would appear gray.
 
+## Diffuse Materials
 
+Diffuse lighting, a.k.a. matte lighting. With rays, the darker the color of the object the more rays will be absorbed by the object. This works in much the way light does in the real world. Color is really just light bands being either absorbed or reflected by the object, and remember that the color we perceive is the combination of whatever light bands get reflected off the surface of the object!
 
+Something to be cognizant of in rendering code especially is floating point errors at the lower ends of a floating point number. When something could possibly be very close to zero, it might create visual artifacting due to precision errors at that tiny scale, so it's important to account for that by setting proper epsilon limitations if you can!
 
-
-
-
-
-
-
-
-
-
-
-
-
+'Albedo' is latin for 'whiteness'. It is used to define some form of *fractional reflectance*.

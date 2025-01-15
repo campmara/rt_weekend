@@ -6,9 +6,10 @@
 class camera
 {
 public:
-    double aspect_ratio = 1.0;
-    int image_width = 100;
+    double aspect_ratio = 1.0;  // ratio of image width over height
+    int image_width = 100;      // rendered image width in pixel count
     int samples_per_pixel = 10; // count of random samples for each pixel
+    int max_depth = 10;         // maximum number of ray bounces into scene
 
     void render(const hittable &world)
     {
@@ -26,7 +27,7 @@ public:
                 for (int sample = 0; sample < samples_per_pixel; ++sample)
                 {
                     ray r = get_ray(x, y);
-                    pixel_color += ray_color(r, world);
+                    pixel_color += ray_color(r, max_depth, world);
                 }
                 write_color(std::cout, pixel_samples_scale * pixel_color);
             }
@@ -91,16 +92,34 @@ private:
         return vec3(random_double() - 0.5, random_double() - 0.5, 0);
     }
 
-    color ray_color(const ray &r, const hittable &world) const
+    color ray_color(const ray &r, int depth, const hittable &world) const
     {
+        if (depth <= 0)
+        {   // if we've exceeded the ray bounce limit, no more light is gathered
+            return color(0, 0, 0);
+        }
+
         hit_record rec;
-        if (world.hit(r, interval(0, infinity), rec)) {
-            return 0.5 * (rec.normal + color(1, 1, 1));
+        if (world.hit(r, interval(0.001, infinity), rec)) {
+            vec3 direction = hit_direction_lambert(rec.normal);
+            return 0.5 * ray_color(ray(rec.p, direction), depth-1, world);
         }
 
         vec3 unit_direction = unit_vector(r.direction());
         auto a = 0.5 * (unit_direction.y() + 1.0);
         return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
+    }
+
+    // diffuse material
+    vec3 hit_direction_diffuse(const vec3 &normal) const
+    {
+        return random_on_hemisphere(normal);
+    }
+
+    // lambert material
+    vec3 hit_direction_lambert(const vec3 &normal) const
+    {
+        return normal + random_unit_vector();
     }
 };
 

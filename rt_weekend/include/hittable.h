@@ -3,10 +3,15 @@
 
 #include "rt_weekend.h"
 
+// tell the compiler that the material class will be defined later
+// (we are trying to avoid circular dependencies between this and the material header)
+class material;
+
 struct hit_record
 {
     point3 p;
     vec3 normal;
+    shared_ptr<material> mat;
     double t;
     bool front_face;
 

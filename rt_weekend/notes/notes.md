@@ -78,3 +78,22 @@ Diffuse lighting, a.k.a. matte lighting. With rays, the darker the color of the 
 Something to be cognizant of in rendering code especially is floating point errors at the lower ends of a floating point number. When something could possibly be very close to zero, it might create visual artifacting due to precision errors at that tiny scale, so it's important to account for that by setting proper epsilon limitations if you can!
 
 'Albedo' is latin for 'whiteness'. It is used to define some form of *fractional reflectance*.
+
+## Reflection vs. Refraction
+
+Reflection obviously reflects a ray off the surface of an object in the opposite direction.
+
+Refraction basically means that when a ray is absorbed by the object, how much is that ray bent? The amount that a ray bends is determined by the *refractive index*.
+
+Glass has an refractive index of 1.5-1.7, diamond is 2.4, and air has a small refractive index of 1.000293.
+
+A refraction function looks like this:
+
+```c++
+inline vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
+    auto cos_theta = std::fmin(dot(-uv, n), 1.0);
+    vec3 r_out_perp =  etai_over_etat * (uv + cos_theta*n);
+    vec3 r_out_parallel = -std::sqrt(std::fabs(1.0 - r_out_perp.length_squared())) * n;
+    return r_out_perp + r_out_parallel;
+}
+```
